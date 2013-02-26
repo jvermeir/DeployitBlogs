@@ -3,7 +3,7 @@
 APP=$1
 echo "Generating deployment archive for '$APP'"
 
-DEPLOYIT_HOME=/Users/jan/dev/blogs/deployitBlogs/deployit-3.7.4-server
+DEPLOYIT_HOME=/Users/jan/dev/blogs/deployitBlogs/deployit-3.8.4-server
 
 TIMESTAMP=`date +"%Y%m%d-%H%M%S"`
 TMP=target/dar
