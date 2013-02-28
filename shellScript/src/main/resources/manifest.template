@@ -3,15 +3,18 @@ Deployit-Package-Format-Version: 1.3
 CI-Application: <application>
 CI-Version: 1.0-<timestamp>
 
+Name: mkdir
+CI-Type: cmd.Command
+CI-commandLine: mkdir -p tmp/deployitTest
+
 Name: ls
 CI-Type: cmd.Command
 CI-Order: 79
-CI-commandLine: ls -ltra /tmp
-CI-dependencies-EntryValue-1: resources/<timestamp>.txt
+CI-commandLine: ls -ltra tmp/deployitTest
 
-Name: resources/<timestamp>.txt
-CI-Type: file.File
-CI-TargetPath: /tmp
+Name: resources
+CI-Type: file.Folder
+CI-TargetPath: tmp/deployitTest
 CI-Name: resource
 
 
