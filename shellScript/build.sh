@@ -20,5 +20,6 @@ rm ../$APP.dar
 zip -r ../$APP.dar *
 cd -
 cp target/$APP.dar $DEPLOYIT_HOME/importablePackages
+ls -ltra $DEPLOYIT_HOME/importablePackages/$APP.dar
 
 echo "'$APP' copied, start Deploy gui and import"
