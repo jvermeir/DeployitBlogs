@@ -7,5 +7,6 @@ To use:
 - restart Deployit
 - run build.sh: 
 	build.sh copyExample
-- start the Deployit GUI in a browser, import copyExmple.dar, deploy
+- start the Deployit GUI in a browser, import copyExample.dar, deploy
 
+todo: create cli script? 
