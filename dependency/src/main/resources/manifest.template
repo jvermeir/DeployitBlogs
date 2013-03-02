@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Deployit-Package-Format-Version: 1.3
+CI-Application: <application>
+CI-Version: 1.0-<timestamp>
+
+Name: cat
+CI-Type: cmd.Command
+CI-commandLine: cat ${someFile.txt}
+CI-dependencies-EntryValue-1: someFile.txt
+
+Name: someFile.txt
+CI-Type: file.File
+CI-TargetPath: /tmp
+CI-Name: someFile.txt
