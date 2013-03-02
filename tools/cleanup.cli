@@ -1,0 +1,29 @@
+#
+# Remove all versions of a application from the repository
+#
+
+import sys
+
+def usage():
+   print "usage: $CLI_HOME/bin/cli.sh -username <username> -password <password> -f cleanup.cli -- <applicationName>"
+   print "example: $CLI_HOME/bin/cli.sh -username admin -password admin -f cleanup.cli -- script"
+
+def removeApplications(applicationIds):
+    print "Removing applications with id: " + str(applicationIds)
+    for appId in applicationIds:
+        try:
+           print "Removing application: " + str(appId)
+           app = repository.read(appId)
+           repository.delete(app.id)
+        except:
+           print "Failed to remove application: " + app.id 
+    deployit.runGarbageCollector()
+
+if len(sys.argv) < 2:
+    usage()
+    sys.exit(-1)
+
+appName = sys.argv[1]
+print "Removing application versions for application: '" + appName + "'"
+scriptVersions =  repository.search('udm.DeploymentPackage', 'Applications/' + appName )
+removeApplications(scriptVersions)
