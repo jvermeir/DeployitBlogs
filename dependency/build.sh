@@ -13,7 +13,9 @@ fi
 
 mkdir -p $TMP/META-INF
 cat src/main/resources/manifest.template | sed "s/<application>/$APP/g;s/<timestamp>/$TIMESTAMP/g" > $TMP/META-INF/MANIFEST.MF
-echo $TIMESTAMP > $TMP/someFile.txt
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" > $TMP/someFile.txt
+echo $TIMESTAMP >> $TMP/someFile.txt
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" >> $TMP/someFile.txt
 cd $TMP
 rm ../$APP.dar
 zip -r ../$APP.dar *
