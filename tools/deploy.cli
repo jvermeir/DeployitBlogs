@@ -23,17 +23,23 @@ def deleteApp(appName):
     versions = repository.search('udm.DeploymentPackage', 'Applications/' + appName )
     print "deleting: " + str(versions)
     for version in versions:
-       print "delete" + str(version)
        app = repository.read(version)
+       print "deleting: " + version
        try:
+           print "undeploy: " + str(version)
            appInEnv = 'Environments/localenv/' + appName
-
            taskID = deployment.undeploy(appInEnv).id
            deployit.startTaskAndWait(taskID)
-       except Exception, detail:
-           print "Ignoring exception on undeploy"
-           print detail
-       repository.delete(app.id)
+       except:
+           print "Ignoring exception on undeploy, version is probably not deployed"
+
+       try:
+           print "Removing application: " + str(app.id)
+           repository.delete(app.id)
+       except:
+           print "Failed to remove application: " + app.id
+
+    deployit.runGarbageCollector()
 
 def deployApp(fileName):
     print "Deploying application from file: '" + fileName + "'"

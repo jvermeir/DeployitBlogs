@@ -1,5 +1,5 @@
 #
-# Remove all versions of an application from the repository, except for the ones that are deployed
+# Remove all versions of an application from the repository
 #
 
 import sys
@@ -8,28 +8,29 @@ def usage():
    print "usage: $CLI_HOME/bin/cli.sh -username <username> -password <password> -f cleanup.cli -- <applicationName>"
    print "example: $CLI_HOME/bin/cli.sh -username admin -password admin -f cleanup.cli -- script"
 
-def removeApplicationVersions(applicationVersionIds):
-    print "Removing applications: " + str(applicationVersionIds)
-    for appId in applicationVersionIds:
-        try:
-           print "Removing application: " + str(appId)
-           app = repository.read(appId)
+
+def deleteApp(appName):
+    versions = repository.search('udm.DeploymentPackage', 'Applications/' + appName )
+    print "deleting: " + str(versions)
+    for version in versions:
+       app = repository.read(version)
+       print "deleting: " + version
+       try:
+           print "undeploy: " + str(version)
+           appInEnv = 'Environments/localenv/' + appName
+           taskID = deployment.undeploy(appInEnv).id
+           deployit.startTaskAndWait(taskID)
+       except:
+           print "Ignoring exception on undeploy, version is probably not deployed"
+
+       try:
+           print "Removing application: " + str(app.id)
            repository.delete(app.id)
-        except:
-           print "Failed to remove application: " + app.id 
+       except:
+           print "Failed to remove application: " + app.id
+
     deployit.runGarbageCollector()
 
-def undeployApplication(appName):
-    versions = repository.search('udm.DeploymentPackage', 'Environments' + appName )
-    try:
-        taskID = deployment.undeploy('Environments/localenv/' + appName)
-        deployit.startTaskAndWait(taskID)
-    except:
-        print "undeploy failed, continuing with fingers crossed"
-
-def removeApplication(appName):
-    versions = repository.search('udm.DeploymentPackage', 'Applications/' + appName )
-    removeApplicationVersions(versions)
 
 if len(sys.argv) < 2:
     usage()
@@ -37,4 +38,4 @@ if len(sys.argv) < 2:
 
 appName = sys.argv[1]
 print "Removing application versions for application: '" + appName + "'"
-removeApplication(appName)
+deleteApp(appName)
