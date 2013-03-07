@@ -8,30 +8,6 @@ def usage():
    print "usage: $CLI_HOME/bin/cli.sh -username <username> -password <password> -f cleanup.cli -- <applicationName>"
    print "example: $CLI_HOME/bin/cli.sh -username admin -password admin -f cleanup.cli -- script"
 
-
-def deleteApp(appName):
-    versions = repository.search('udm.DeploymentPackage', 'Applications/' + appName )
-    print "deleting: " + str(versions)
-    for version in versions:
-       app = repository.read(version)
-       print "deleting: " + version
-       try:
-           print "undeploy: " + str(version)
-           appInEnv = 'Environments/localenv/' + appName
-           taskID = deployment.undeploy(appInEnv).id
-           deployit.startTaskAndWait(taskID)
-       except:
-           print "Ignoring exception on undeploy, version is probably not deployed"
-
-       try:
-           print "Removing application: " + str(app.id)
-           repository.delete(app.id)
-       except:
-           print "Failed to remove application: " + app.id
-
-    deployit.runGarbageCollector()
-
-
 if len(sys.argv) < 2:
     usage()
     sys.exit(-1)
