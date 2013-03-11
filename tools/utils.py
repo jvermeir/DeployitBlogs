@@ -5,26 +5,37 @@
 import string
 
 def deleteApp(appName):
-    versions = repository.search('udm.DeploymentPackage', 'Applications/' + appName )
-    print "deleting: " + str(versions)
-    for version in versions:
-       app = repository.read(version)
-       print "deleting: " + version
+    print "delete app named '" + appName + "'"
+    deployeds = repository.search('udm.DeployedApplication', '' )
+    for deployed in deployeds:
+       if deployed.endswith(appName):
+           print "undeploying: " , deployed
+           app = repository.read(deployed)
+           undeployApp(app)
+
+    appVersions = repository.search('udm.Application')
+    for appVersion in appVersions:
+       if appVersion.endswith(appName):
+           appId = repository.read(appVersion)
+           print "deleting: " , appId
+           deleteVersion(appId)
+
+    deployit.runGarbageCollector()
+
+def undeployApp(app):
        try:
-           print "undeploy: " + str(version)
-           appInEnv = 'Environments/localenv/' + appName
-           taskID = deployment.undeploy(appInEnv).id
+           print "undeploy: " , app
+           taskID = deployment.undeploy(str(app)).id
            deployit.startTaskAndWait(taskID)
        except:
            print "Ignoring exception on undeploy, version is probably not deployed"
 
+def deleteVersion(appVersion):
        try:
-           print "Removing application: " + str(app.id)
-           repository.delete(app.id)
+           print "Removing application: " + appVersion.id
+           repository.delete(appVersion.id)
        except:
-           print "Failed to remove application: " + app.id
-
-    deployit.runGarbageCollector()
+           print "Failed to remove application: " + str(appVersion.id)
 
 def getAppName(fileName):
     print "Find app id for '" + fileName + "'"
@@ -34,17 +45,18 @@ def getAppName(fileName):
     print "appName: " + appName
     return appName
 
-def deployApp(fileName):
-    print "Deploying application from file: '" + fileName + "'"
+def deployApp(fileName, environmentName):
+    print "Deploying application from file: '" + fileName + "' to environment '" + environmentName + "'"
     try:
        appName=getAppName(fileName)
        deleteApp(appName)
        print "import and deploy"
        darId=deployit.importPackage(fileName)
-       initialDeployment = deployment.prepareInitial(str(darId), "Environments/localenv")
+       initialDeployment = deployment.prepareInitial(str(darId), "Environments/" + environmentName)
        deployeds = deployment.generateAllDeployeds(initialDeployment)
        taskID = deployment.deploy(deployeds).id
        deployit.startTaskAndWait(taskID)
+       print "OK"
     except Exception, detail:
        print "Failed to deploy application: '" + fileName + "'"
        print detail
