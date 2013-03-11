@@ -7,14 +7,15 @@
 import sys
 
 def usage():
-   print "usage: $CLI_HOME/bin/cli.sh -username <username> -password <password> -f deploy.cli -- <fullDarFileName>"
-   print "example: $CLI_HOME/bin/cli.sh -username admin -password admin -f deploy.cli -- $SRC_HOME/DeployitBlogs/dependency/target/deps.dar"
+   print "usage: $CLI_HOME/bin/cli.sh -username <username> -password <password> -f deploy.cli -- <fullDarFileName> <environmentName>"
+   print "example: $CLI_HOME/bin/cli.sh -username admin -password admin -f deploy.cli -- $SRC_HOME/DeployitBlogs/dependency/target/deps.dar localenv"
 
-if len(sys.argv) < 2:
+if len(sys.argv) < 3:
     sys.exit(usage())
 
 fullDarFileName = sys.argv[1]
-print "Deploy application: '" + fullDarFileName + "'"
-deployApp(fullDarFileName)
+environmentName = sys.argv[2]
+print "Deploy application: '" + fullDarFileName + "' to '" + environmentName + "'"
+deployApp(fullDarFileName, environmentName)
 
 
