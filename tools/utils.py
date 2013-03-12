@@ -12,7 +12,7 @@ def deleteApp(appName):
            print "undeploying: " , deployed
            app = repository.read(deployed)
            undeployApp(app)
-
+           # my_list = [i for i in my_list if i.attribute == value]
     appVersions = repository.search('udm.Application')
     for appVersion in appVersions:
        if appVersion.endswith(appName):
