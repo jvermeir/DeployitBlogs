@@ -4,8 +4,7 @@
 
 import string
 
-def deleteApp(appName):
-    print "delete app named '" + appName + "'"
+def undeployApps():
     deployeds = repository.search('udm.DeployedApplication', '' )
     for deployed in deployeds:
        if deployed.endswith(appName):
@@ -13,6 +12,7 @@ def deleteApp(appName):
            app = repository.read(deployed)
            undeployApp(app)
 
+def deleteVersions():
     appVersions = repository.search('udm.Application')
     for appVersion in appVersions:
        if appVersion.endswith(appName):
@@ -20,22 +20,26 @@ def deleteApp(appName):
            print "deleting: " , appId
            deleteVersion(appId)
 
+def undeployApp(app):
+    try:
+       print "undeploy: " , app
+       taskID = deployment.undeploy(str(app)).id
+       deployit.startTaskAndWait(taskID)
+    except:
+       print "Ignoring exception on undeploy, version is probably not deployed"
+
+def deleteApp(appName):
+    print "delete app named '" + appName + "'"
+    undeployApps()
+    deleteVersions()
     deployit.runGarbageCollector()
 
-def undeployApp(app):
-       try:
-           print "undeploy: " , app
-           taskID = deployment.undeploy(str(app)).id
-           deployit.startTaskAndWait(taskID)
-       except:
-           print "Ignoring exception on undeploy, version is probably not deployed"
-
 def deleteVersion(appVersion):
-       try:
-           print "Removing application: " + appVersion.id
-           repository.delete(appVersion.id)
-       except:
-           print "Failed to remove application: " + str(appVersion.id)
+    try:
+       print "Removing application: " + appVersion.id
+       repository.delete(appVersion.id)
+    except:
+       print "Failed to remove application: " + str(appVersion.id)
 
 def getAppName(fileName):
     print "Find app id for '" + fileName + "'"
