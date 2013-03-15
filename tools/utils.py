@@ -4,15 +4,14 @@
 
 import string
 
-def undeployApps():
-    deployeds = repository.search('udm.DeployedApplication', '' )
-    for deployed in deployeds:
-       if deployed.endswith(appName):
-           print "undeploying: " , deployed
-           app = repository.read(deployed)
-           undeployApp(app)
+def undeployApps(appName):
+    ids = repository.searchByName(appName)
+    for id in ids:
+       ci = repository.read(id)
+       if ci.type == "udm.DeployedApplication":
+         undeployApp(ci)
 
-def deleteVersions():
+def deleteVersions(appName):
     appVersions = repository.search('udm.Application')
     for appVersion in appVersions:
        if appVersion.endswith(appName):
@@ -23,15 +22,15 @@ def deleteVersions():
 def undeployApp(app):
     try:
        print "undeploy: " , app
-       taskID = deployment.undeploy(str(app)).id
+       taskID = deployment.undeploy(app.id).id
        deployit.startTaskAndWait(taskID)
     except:
        print "Ignoring exception on undeploy, version is probably not deployed"
 
 def deleteApp(appName):
     print "delete app named '" + appName + "'"
-    undeployApps()
-    deleteVersions()
+    undeployApps(appName)
+    deleteVersions(appName)
     deployit.runGarbageCollector()
 
 def deleteVersion(appVersion):
