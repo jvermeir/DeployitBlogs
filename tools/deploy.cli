@@ -1,8 +1,6 @@
 #
 # Deploy a dar file. If the app in the dar is already deployed it is removed first.
 #
-# TODO: environment is hardcoded but should be dynamic (from a list of environments where a resource can be deployed to)
-# TODO: appName is the last part of the dar file name. is this ok?
 
 import sys
 

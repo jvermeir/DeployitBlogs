@@ -9,15 +9,14 @@ def undeployApps(appName):
     for id in ids:
        ci = repository.read(id)
        if ci.type == "udm.DeployedApplication":
-         undeployApp(ci)
+          print "undeploying: " , id
+          undeployApp(ci)
 
 def deleteVersions(appName):
-    appVersions = repository.search('udm.Application')
-    for appVersion in appVersions:
-       if appVersion.endswith(appName):
-           appId = repository.read(appVersion)
-           print "deleting: " , appId
-           deleteVersion(appId)
+    ids = repository.searchByName(appName)
+    for id in ids:
+       print "deleting: " , id
+       deleteVersion(id)
 
 def undeployApp(app):
     try:
@@ -35,8 +34,8 @@ def deleteApp(appName):
 
 def deleteVersion(appVersion):
     try:
-       print "Removing application: " + appVersion.id
-       repository.delete(appVersion.id)
+       print "Removing application: " , appVersion
+       repository.delete(appVersion)
     except:
        print "Failed to remove application: " + str(appVersion.id)
 
