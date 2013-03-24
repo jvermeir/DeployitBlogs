@@ -4,7 +4,37 @@
 
 import string
 
+#
+# Main entry points to the library are deleteApp() and deployApp()
+#
+
+def deleteApp(appName):
+    print "delete app named '" + appName + "'"
+    undeployApps(appName)
+    deleteVersions(appName)
+    deployit.runGarbageCollector()
+
+def deployApp(fileName, environmentName):
+    print "Deploying application from file: '" + fileName + "' to environment '" + environmentName + "'"
+    try:
+       appName=getAppName(fileName)
+       deleteApp(appName)
+       print "import and deploy"
+       darId=deployit.importPackage(fileName)
+       initialDeployment = deployment.prepareInitial(str(darId), "Environments/" + environmentName)
+       deployeds = deployment.generateAllDeployeds(initialDeployment)
+       taskID = deployment.deploy(deployeds).id
+       deployit.startTaskAndWait(taskID)
+       print "OK"
+    except Exception, detail:
+       print "Failed to deploy application: '" + fileName + "'"
+       print detail
+
+#
+# Helper functions
+#
 def undeployApps(appName):
+    print "undeploying all versions of '" + appName + "'"
     ids = repository.searchByName(appName)
     for id in ids:
        ci = repository.read(id)
@@ -26,12 +56,6 @@ def undeployApp(app):
     except:
        print "Ignoring exception on undeploy, version is probably not deployed"
 
-def deleteApp(appName):
-    print "delete app named '" + appName + "'"
-    undeployApps(appName)
-    deleteVersions(appName)
-    deployit.runGarbageCollector()
-
 def deleteVersion(appVersion):
     try:
        print "Removing application: " , appVersion
@@ -46,20 +70,4 @@ def getAppName(fileName):
     appName=string.split(darFile,'.')[0]
     print "appName: " + appName
     return appName
-
-def deployApp(fileName, environmentName):
-    print "Deploying application from file: '" + fileName + "' to environment '" + environmentName + "'"
-    try:
-       appName=getAppName(fileName)
-       deleteApp(appName)
-       print "import and deploy"
-       darId=deployit.importPackage(fileName)
-       initialDeployment = deployment.prepareInitial(str(darId), "Environments/" + environmentName)
-       deployeds = deployment.generateAllDeployeds(initialDeployment)
-       taskID = deployment.deploy(deployeds).id
-       deployit.startTaskAndWait(taskID)
-       print "OK"
-    except Exception, detail:
-       print "Failed to deploy application: '" + fileName + "'"
-       print detail
 
