@@ -4,7 +4,7 @@
 # Create a fresh install of Deployit, copy available plugins and plugins taken from
 # a build directory, start Deployit and check the log to see if it still works.
 #
-# Usage: ./basicDeployitStartupTest.sh [-r rootDirForInstall -d dirToInstallDeployit -p dirThatHoldsCustomPlugins -v deployitVersion]
+# Usage: ./basicDeployitStartupTest.sh [-r rootDirForInstall -d dirToInstallDeployit -p dirThatHoldsCustomPlugins -v deployitVersion plugin1 plugin2 ...]
 # All parameters are optional, see parseopts for details
 #
 
