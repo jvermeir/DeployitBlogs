@@ -66,7 +66,6 @@ function installDeployit {
 	rm -rf $DEPLOYIT_HOME
 	mkdir -p $DEPLOYIT_HOME
 	unzip -q $ROOTDIR/resources/deployit-$DEPLOYIT_VERSION-server-setup.zip -d $DEPLOYIT_HOME
-#	yes yes yes | $DEPLOYIT_HOME/deployit-$DEPLOYIT_VERSION-server/bin/server.sh -setup > deployitSetup.log
 }
 
 function buildAndCopyPlugins {
