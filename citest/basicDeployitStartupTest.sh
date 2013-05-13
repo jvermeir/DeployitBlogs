@@ -106,16 +106,17 @@ function validate {
 	echo "validate"
 	cd $DEPLOYIT_HOME
 	rm -f nohup.out
-	echo "Starting Deployit, waiting 60 seconds"
 	nohup ./deployit-$DEPLOYIT_VERSION-server/bin/server.sh > nohup.out &
     CONTINUE=0
-    COUNT=5
+    COUNT=12
+    SLEEP_TIME=5
+	echo "Starting Deployit, waiting $COUNT times $SLEEP_TIME seconds"
     printf "waiting,"
     while [ "$CONTINUE" = "0" ]
     do
         COUNT=`expr $COUNT - 1`
         printf " $COUNT "
-	    sleep 5
+	    sleep $SLEEP_TIME
         RUN_RESULT=`grep "You can now point your browser to" nohup.out`
         len=${#RUN_RESULT}
         if [[ "$len" -gt 0 || "$COUNT" -eq 0 ]]
