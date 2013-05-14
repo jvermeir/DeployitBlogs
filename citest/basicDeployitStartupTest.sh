@@ -98,7 +98,7 @@ function buildAndCopyPlugins {
 
 function copyPluginsFromDistribution {
     echo "copy plugins"
-	cp $DEPLOYIT_HOME/deployit-$DEPLOYIT_VERSION-server/available-plugins/*jar $DEPLOYIT_HOME/deployit-3.8.4-server/plugins
+	cp $DEPLOYIT_HOME/deployit-$DEPLOYIT_VERSION-server/available-plugins/*jar $DEPLOYIT_HOME/deployit-$DEPLOYIT_VERSION-server/plugins
 	find $ROOTDIR/lib/ -name *jar -exec cp {} $DEPLOYIT_HOME/deployit-$DEPLOYIT_VERSION-server/plugins \;
 }
 
