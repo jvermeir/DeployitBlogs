@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.xebia</groupId>
+    <artifactId>DemoApp</artifactId>
+    <packaging>war</packaging>
+    <version>1.0</version>
+    <name>DemoApp Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.3</version>
+                <configuration>
+                    <warName>demoApp</warName>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+
+
+        <!--
+
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.xebialabs.deployit</groupId>
+                            <artifactId>maven-deployit-plugin</artifactId>
+                            <version>4.5.2</version>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>com.xebialabs.deployit</groupId>
+                        <artifactId>maven-deployit-plugin</artifactId>
+                        <version>4.5.2</version>
+
+                        <extensions>true</extensions>
+                        <executions>
+                            <execution>
+                                <id>deployit-plugin-test</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <deploymentPackageProperties>
+                                <orchestrator>default</orchestrator>
+                                <satisfiesReleaseNotes>true</satisfiesReleaseNotes>
+                            </deploymentPackageProperties>
+                            <deployables>
+                                <jee.War name="demo-war" groupId="com.xebia" artifactId="DemoApp" artifactType="war"/>
+                            </deployables>
+                            <environmentId>Environments/test</environmentId>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.xebia</groupId>
+                    <artifactId>DemoApp</artifactId>
+                    <version>1.0</version>
+                    <type>war</type>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </project>
+
+        -->
