@@ -9,18 +9,10 @@
     <url>http://maven.apache.org</url>
     <pluginRepositories>
         <pluginRepository>
-<!--            <id>xebialabs-maven2</id> -->
-            <id>testXLDServer</id>
+            <id>XLDeployRepo</id>
             <url>https://dist.xebialabs.com/public/maven2/</url>
         </pluginRepository>
     </pluginRepositories>
-    <properties>
-        <deployit.username>admin</deployit.username>
-        <deployit.password>adminadmin</deployit.password>
-        <deployit.server>localhost</deployit.server>
-        <deployit.port>4516</deployit.port>
-        <deployit.container>Environments/test</deployit.container>
-    </properties>
     <build>
         <pluginManagement>
             <plugins>
@@ -57,6 +49,8 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <username>${deployit.username}</username>
+                    <password>${deployit.password}</password>
                     <deploymentPackageProperties>
                         <orchestrator>default</orchestrator>
                         <satisfiesReleaseNotes>true</satisfiesReleaseNotes>
