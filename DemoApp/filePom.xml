@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.xebia</groupId>
+    <artifactId>fileDemo</artifactId>
+    <packaging>dar</packaging>
+    <name>fileDemo</name>
+    <properties>
+        <maven.build.timestamp.format>yyyyMMdd-HHmmss</maven.build.timestamp.format>
+    </properties>
+    <version>1.0-${maven.build.timestamp}</version>
+    <url>http://maven.apache.org</url>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>XLDeployRepo</id>
+            <url>https://dist.xebialabs.com/public/maven2/</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.xebialabs.deployit</groupId>
+                    <artifactId>maven-deployit-plugin</artifactId>
+                    <version>4.5.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.xebialabs.deployit</groupId>
+                <artifactId>maven-deployit-plugin</artifactId>
+                <version>4.5.2</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <id>deployit-generate-package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate-deployment-package</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>deployit-plugin-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                        <configuration>
+                            <environmentId>Environments/test</environmentId>
+                        </configuration>
+                    </execution>
+                </executions>
+                <configuration>
+                    <username>${deployit.username}</username>
+                    <password>${deployit.password}</password>
+                    <packageVersion>${version}</packageVersion>
+                    <deploymentPackageProperties>
+                        <orchestrator>default</orchestrator>
+                        <satisfiesReleaseNotes>true</satisfiesReleaseNotes>
+                    </deploymentPackageProperties>
+                    <deployables>
+                        <cmd.Command name="my-command">
+                            <order>50</order>
+                            <commandLine>echo hello >> /tmp/hello.txt</commandLine>
+                            <undoCommand>uninstall-my-command</undoCommand>
+                        </cmd.Command>
+                        <cmd.Command name="create-x-dir">
+                            <order>50</order>
+                            <commandLine>mkdir /tmp/x</commandLine>
+                            <undoCommand>uninstall-x-dir</undoCommand>
+                        </cmd.Command>
+                        <cmd.Command name="uninstall-my-command">
+                            <order>45</order>
+                            <commandLine>rm -f /tmp/hello.txt</commandLine>
+                        </cmd.Command>
+                        <cmd.Command name="uninstall-x-dir">
+                            <order>45</order>
+                            <commandLine>rm -rf /tmp/x</commandLine>
+                        </cmd.Command>
+                        <file.File name="myfile.txt" location="data/myfile.txt" targetPath="/tmp/x"/>
+                        <file.Folder name="myfolder" location="data/myfolder" targetPath="/tmp/x"/>
+                    </deployables>
+                    <environmentId>Environments/oneHost</environmentId>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
