@@ -8,7 +8,8 @@
     <properties>
         <maven.build.timestamp.format>yyyyMMdd-HHmmss</maven.build.timestamp.format>
     </properties>
-    <version>1.0-${maven.build.timestamp}</version>
+    <!--<version>1.0-${maven.build.timestamp}</version>-->
+    <version>${myVersion}</version>
     <url>http://maven.apache.org</url>
     <pluginRepositories>
         <pluginRepository>
@@ -52,8 +53,11 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <username>${deployit.username}</username>
-                    <password>${deployit.password}</password>
+                    <!--<credentials>87asdfdf0d8-dfdfdf8989-dfdfdf</credentials>-->
+                    <!--<username>${deployit.username}</username>-->
+                    <!--<password>${deployit.password}</password>-->
+                    <!--<username>${dep.user}</username>-->
+                    <!--<password>${dep.password}</password>-->
                     <packageVersion>${version}</packageVersion>
                     <deploymentPackageProperties>
                         <orchestrator>default</orchestrator>

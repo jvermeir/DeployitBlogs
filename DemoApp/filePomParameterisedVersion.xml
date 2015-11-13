@@ -8,7 +8,8 @@
     <properties>
         <maven.build.timestamp.format>yyyyMMdd-HHmmss</maven.build.timestamp.format>
     </properties>
-    <version>1.0-${maven.build.timestamp}</version>
+    <version>${myVersion}</version>
+    <!--<version>1.0-${maven.build.timestamp}</version>-->
     <url>http://maven.apache.org</url>
     <pluginRepositories>
         <pluginRepository>
